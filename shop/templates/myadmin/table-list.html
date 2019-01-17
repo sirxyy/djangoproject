@@ -12,166 +12,122 @@
                         <div class="am-form-group">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                    <button type="button" class="am-btn am-btn-default am-btn-success" ><span class="am-icon-plus"></span><a href="{% url 'myadmin_adduser' %}">新增</a></button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
-                        <div class="am-form-group tpl-table-list-select">
-                            <select data-am-selected="{btnSize: 'sm'}" style="display: none;">
-                                <option value="option1">所有类别</option>
-                                <option value="option2">IT业界</option>
-                                <option value="option3">数码产品</option>
-                                <option value="option3">笔记本电脑</option>
-                                <option value="option3">平板电脑</option>
-                                <option value="option3">只能手机</option>
-                                <option value="option3">超极本</option>
-                            </select>
-                            <div class="am-selected am-dropdown " id="am-selected-8onup" data-am-dropdown="">
-                                <button type="button" class="am-selected-btn am-btn am-dropdown-toggle am-btn-sm am-btn-default"> <span class="am-selected-status am-fl">所有类别</span> <i class="am-selected-icon am-icon-caret-down"></i> </button>
-                                <div class="am-selected-content am-dropdown-content">
-                                    <h2 class="am-selected-header"><span class="am-icon-chevron-left">返回</span></h2>
-                                    <ul class="am-selected-list">
-                                        <li class="am-checked" data-index="0" data-group="0" data-value="option1"> <span class="am-selected-text">所有类别</span> <i class="am-icon-check"></i></li>
-                                        <li class="" data-index="1" data-group="0" data-value="option2"> <span class="am-selected-text">IT业界</span> <i class="am-icon-check"></i></li>
-                                        <li class="" data-index="2" data-group="0" data-value="option3"> <span class="am-selected-text">数码产品</span> <i class="am-icon-check"></i></li>
-                                        <li class="" data-index="3" data-group="0" data-value="option3"> <span class="am-selected-text">笔记本电脑</span> <i class="am-icon-check"></i></li>
-                                        <li class="" data-index="4" data-group="0" data-value="option3"> <span class="am-selected-text">平板电脑</span> <i class="am-icon-check"></i></li>
-                                        <li class="" data-index="5" data-group="0" data-value="option3"> <span class="am-selected-text">只能手机</span> <i class="am-icon-check"></i></li>
-                                        <li class="" data-index="6" data-group="0" data-value="option3"> <span class="am-selected-text">超极本</span> <i class="am-icon-check"></i></li>
-                                    </ul>
-                                    <div class="am-selected-hint"></div>
-                                </div>
+                    <form action="">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select name="type" data-am-selected="{btnSize: 'sm'}" style="display: none;">
+                                    <option {% if request.GET.type == 'all' %}selected {% endif %} value="all">所有类别</option>
+                                    <option {% if request.GET.type == 'uid' %}selected {% endif %} value="uid">ID</option>
+                                    <option {% if request.GET.type == 'uname' %}selected {% endif %} value="uname">用户名</option>
+                                    <option {% if request.GET.type == 'uphone' %}selected {% endif %} value="uphone">手机号</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                        <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                            <input type="text" class="am-form-field ">
-                            <span class="am-input-group-btn">
-            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
-          </span>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text"  value="{{request.GET.search}}" name="search" class="am-form-field ">
+                                <span class="am-input-group-btn">
+                                    <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
+                                  </span>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="am-u-sm-12">
-                        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
                             <thead>
                                 <tr>
-                                    <th>文章标题</th>
-                                    <th>作者</th>
-                                    <th>时间</th>
+                                    <th>ID</th>
+                                    <th>头像</th>
+                                    <th>用户名</th>
+                                    <th>性别</th>
+                                    <th>年龄</th>
+                                    <th>手机号</th>
+                                    <th>状态</th>
+                                    <th>添加时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for i in info %}
                                 <tr class="gradeX">
-                                    <td>Amaze UI 模式窗口</td>
-                                    <td>张鹏飞</td>
-                                    <td>2016-09-26</td>
+                                    <td>{{ i.id }}</td>
+                                    <td><img src="{{ i.head_url }}" alt="" width="50"></td>
+                                    <td>{{ i.username }}</td>
+                                    {% if i.sex == '1' %}
+                                    <td>男</td>
+                                    {% elif i.sex == '0' %}
+                                    <td>女</td>
+                                    {% else %}
+                                    <td>未填写</td>
+                                    {% endif %}
+                                    <td>{{ i.age }}</td>
+                                    <td>{{ i.phone }}</td>
+                                    <td>
+                                         <select style="background:blue" class="changes" uid="{{i.id}}">
+                                            <option {% if i.status == 0 %}selected {% endif %} value="0">正常</option>
+                                            <option {% if i.status == 1 %}selected {% endif %} value="1">禁用</option>
+                                        </select>
+                                    </td>
+                                    <td>{{ i.addtime }}</td>
                                     <td>
                                         <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
+                                            <a href="{% url 'myadmin_edituser' %}?uid={{ i.id }}">
+                                                <i class="am-icon-pencil"></i> 编辑
+                                            </a>
+                                            <a href="{% url 'myadmin_deluser' %}?uid={{ i.id }}" class="tpl-table-black-operation-del">
+                                                <i class="am-icon-trash"></i> 删除
+                                            </a>
+                                            <a href="javascript:void(0);" uid="{{ i.id }}" class="changepwd tpl-table-black-operation-del">
+                                                <i class="am-icon-trash"></i> 重置密码
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr class="even gradeC">
-                                    <td>有适配微信小程序的计划吗</td>
-                                    <td>天纵之人</td>
-                                    <td>2016-09-26</td>
-                                    <td>
-                                        <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="gradeX">
-                                    <td>请问有没有amazeui 分享插件</td>
-                                    <td>王宽师</td>
-                                    <td>2016-09-26</td>
-                                    <td>
-                                        <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="even gradeC">
-                                    <td>关于input输入框的问题</td>
-                                    <td>着迷</td>
-                                    <td>2016-09-26</td>
-                                    <td>
-                                        <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="even gradeC">
-                                    <td>有没有发现官网上的下载包不好用</td>
-                                    <td>醉里挑灯看键</td>
-                                    <td>2016-09-26</td>
-                                    <td>
-                                        <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="even gradeC">
-                                    <td>我建议WEB版本文件引入问题</td>
-                                    <td>罢了</td>
-                                    <td>2016-09-26</td>
-                                    <td>
-                                        <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                                 <!-- more data -->
                             </tbody>
+                            <script>
+                                // 修改状态
+                                $('.changes').change(function(){
+                                    // 获取用户id
+                                    var uid = $(this).attr('uid');
+                                    // 获取value值
+                                    var val = $(this).val();
+                                    // 发送ajax
+                                    $.get('{% url 'myadmin_changes' %}',{uid:uid,status:val},function(data){
+                                        alert(data.msg)
+                                    },'json');
+                                });
+
+                                // 重置密码
+                                $('.changepwd').click(function () {
+                                    // 获取用户id
+                                    var uid = $(this).attr('uid');
+                                    // 发送ajax请求,重置密码
+                                    $.get('{% url 'myadmin_respwd' %}', {uid: uid}, function (data) {
+                                        console.log(data);
+                                    }, 'json');
+                                }); 
+                            </script>
                         </table>
                     </div>
                     <div class="am-u-lg-12 am-cf">
                         <div class="am-fr">
                             <ul class="am-pagination tpl-pagination">
-                                <li class="am-disabled"><a href="#">«</a></li>
-                                <li class="am-active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">»</a></li>
+                                <li ><a href="{% url 'myadmin_vipuser' %}?p=1&type={{request.GET.type}}&search={{request.GET.search}}">首页</a></li>
+
+                                <li {% if page == 1 %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_vipuser' %}?p={{page|add:-1}}&type={{request.GET.type}}&search={{request.GET.search}}">«</a></li>
+                                {% for i in prange %}
+                                <li {% if page == i %} class="am-active" {% endif %}><a href="{% url 'myadmin_vipuser' %}?p={{i}}&type={{request.GET.type}}&search={{request.GET.search}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li {% if page == sumpage %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_vipuser' %}?p={{page|add:1}}&type={{request.GET.type}}&search={{request.GET.search}}">»</a></li>
+
+                                <li ><a href="{% url 'myadmin_vipuser' %}?p={{sumpage}}&type={{request.GET.type}}&search={{request.GET.search}}">尾页</a></li>
                             </ul>
                         </div>
                     </div>
