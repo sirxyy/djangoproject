@@ -1,0 +1,155 @@
+{% extends 'myadmin/index.html' %} 
+{% block cont %}
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title  am-cf">分类列表</div>
+                </div>
+                <div class="widget-body  am-fr">
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                        <div class="am-form-group">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-success" ><span class="am-icon-plus"></span><a href="{% url 'myadmin_addcate' %}">新增</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select name="type" data-am-selected="{btnSize: 'sm'}" style="display: none;">
+                                    <option {% if request.GET.type == 'all' %}selected {% endif %} value="all">所有类别</option>
+                                    <option {% if request.GET.type == 'id' %}selected {% endif %} value="id">ID</option>
+                                    <option {% if request.GET.type == 'name' %}selected {% endif %} value="name">name</option>
+                                    <option {% if request.GET.type == 'upid' %}selected {% endif %} value="upid">upid</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text"  value="{{request.GET.search}}" name="search" class="am-form-field ">
+                                <span class="am-input-group-btn">
+                                    <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
+                                  </span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="am-u-sm-12">
+                        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>name</th>
+                                    <th>upid</th>
+                                    <th>paths</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in cates %}
+                                <tr class="gradeX">
+                                    <td>{{ i.id }}</td>
+                                    <td class="dbl" id="{{ i.id }}">{{ i.newname }}<span>{{ i.name }}</span></td>
+                                    <td>{{ i.upid }}</td>
+                                    <td>{{ i.paths }}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="">
+                                                <i class="am-icon-pencil"></i> 编辑
+                                            </a>
+                                            <a href="javascript:void(0)" pid="{{ i.id }}" class="delcate" class="tpl-table-black-operation-del">
+                                                <i class="am-icon-trash"></i> 删除
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <!-- more data -->
+                            </tbody>
+                            <script>
+                                // 给删除添加单击事件
+                                $('.delcate').click(function () {
+                                    // 获取pid
+                                    var pid = $(this).attr('pid'); // 实际上就是这条记录的 id 号
+                                    var el = $(this).parents('tr');
+                                    // 向后台发送删除的请求
+                                    $.get('{% url 'myadmin_delcate' %}', { pid: pid }, function (data) {
+                                        // 如果成功就删除当前这一行的标签
+                                        if (data['msg'] == 0) {
+                                            // 不能删除
+                                            alert('当前分类下有子类,不能删除');
+                                        } else if (data['msg'] == 1) {
+                                            // 可以删除 , 删除元素
+                                            el.remove();
+                                        }
+                                    }, 'json');
+                                });
+
+                                // 修改,双击tr 时,编辑分类名字,
+                                $('.dbl').dblclick(function () {
+                                    // 获取当前单机的标签
+                                    var sp = $(this).find('span');
+                                    // 获取id
+                                    var id = $(this).attr('id');
+                                    // 获取到原值
+                                    var val = $(this).find('span').text();
+                                    // 创建一个input框框
+                                    var inp = $('<input type="text" class="inp" value=' + val + '>');
+                                    // 
+                                    inp.css('color', '#000');
+                                    // 将创建好的input写入到页面
+                                    $(this).find('span').html(inp);
+                                    
+                                    // 失去焦点 
+                                    inp.blur(function () {
+                                        var newval = $(this).val();
+                                        // 判断有没有修改
+                                        if (newval == val) {
+                                            // 不更改,将原来的值写入span
+                                            $(this).parent().html(val);
+                                        } else {
+                                            // 发送ajax请求
+                                            $.get('{% url 'myadmin_editcate' %}', {id: id, name: newval}, function (data) {
+                                                // 判断有没有添加成功
+                                                if (data['msg'] == 1) {
+                                                    console.log('ok');
+                                                    sp.html(newval);
+                                                } else {
+                                                    sp.html(val);
+                                                    alert('修改失败');
+                                                }
+                                            }, 'json');
+                                        }
+                                    });
+                                    
+                                });
+
+
+
+                            </script>
+                        </table>
+                    </div>
+                    <div class="am-u-lg-12 am-cf">
+                        <div class="am-fr">
+                            <ul class="am-pagination tpl-pagination">
+                                <li ><a href="{% url 'myadmin_catelist' %}?p=1&type={{request.GET.type}}&search={{request.GET.search}}">首页</a></li>
+
+                                <li {% if page == 1 %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_catelist' %}?p={{page|add:-1}}&type={{request.GET.type}}&search={{request.GET.search}}">«</a></li>
+                                {% for i in prange %}
+                                <li {% if page == i %} class="am-active" {% endif %}><a href="{% url 'myadmin_catelist' %}?p={{i}}&type={{request.GET.type}}&search={{request.GET.search}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li {% if page == sumpage %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_catelist' %}?p={{page|add:1}}&type={{request.GET.type}}&search={{request.GET.search}}">»</a></li>
+
+                                <li ><a href="{% url 'myadmin_catelist' %}?p={{sumpage}}&type={{request.GET.type}}&search={{request.GET.search}}">尾页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

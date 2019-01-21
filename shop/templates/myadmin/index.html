@@ -201,7 +201,11 @@
 
             <!-- 菜单 -->
             <ul class="sidebar-nav">
-                
+                 <li class="sidebar-nav-link">
+                    <a href="{% url 'myadmin_index' %}" class="sidebar-nav-sub-title active">
+                        <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
+                    </a>
+                </li>
                 <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 用户管理
@@ -213,10 +217,52 @@
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 会员列表
                             </a>
                         </li>
-
-                       
                     </ul>
                 </li>
+                <li class="sidebar-nav-link">
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 商品分类
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <li class="sidebar-nav-link">
+                            <a href="{% url 'myadmin_catelist' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 分类列表
+                            </a>
+                        </li>
+                         <li class="sidebar-nav-link">
+                            <a href="{% url 'myadmin_addcate' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 添加分类
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                 <li class="sidebar-nav-link">
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 商品管理
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <li class="sidebar-nav-link">
+                            <a href="{% url 'myadmin_goodlist' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 商品列表
+                            </a>
+                        </li>
+                         <li class="sidebar-nav-link">
+                            <a href="{% url 'myadmin_addgoods' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 添加商品
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- <script>
+                    $('.sidebar-nav-link').click(function () {
+                        $(this).find('a.sidebar-nav-sub-title').addClass('active');
+                        $(this).siblings().find('a.sidebar-nav-sub-title').removeClass('active');
+                    });
+                </script> -->
+
                
             </ul>
         </div>

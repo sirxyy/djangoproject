@@ -25,7 +25,8 @@ SECRET_KEY = '3ji55k)^lmr#wi=umd-lr4del@@v&r*&b2de6!rd0f^a_cwr&f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', '192.168.25.130']
 
 
 # Application definition
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myadmin',
     'myhome',
+    'ueditor',
 ]
 
 MIDDLEWARE = [
