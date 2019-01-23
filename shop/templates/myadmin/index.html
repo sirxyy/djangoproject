@@ -50,7 +50,8 @@
                     <ul>
                         <!-- 欢迎语 -->
                         <li class="am-text-sm tpl-header-navbar-welcome">
-                            <a href="javascript:;">欢迎你, <span>Amaze UI</span> </a>
+                            <!-- <a href="javascript:;">欢迎你, <span>Amaze UI</span> </a> -->
+                            <a href="javascript:;">欢迎你, <span>{{request.session.adminuser.vipuser}}</span> </a>
                         </li>
 
                         <!-- 新邮件 -->
@@ -160,7 +161,7 @@
 
                         <!-- 退出 -->
                         <li class="am-text-sm">
-                            <a href="javascript:;">
+                            <a href="{% url 'myadmin_out' %}">
                                 <span class="am-icon-sign-out"></span> 退出
                             </a>
                         </li>
@@ -237,7 +238,7 @@
                         </li>
                     </ul>
                 </li>
-                 <li class="sidebar-nav-link">
+                <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 商品管理
                         <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
@@ -255,6 +256,20 @@
                         </li>
                     </ul>
                 </li>
+                 <li class="sidebar-nav-link">
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 订单管理
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <li class="sidebar-nav-link">
+                            <a href="{% url 'myadmin_goodlist' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 查看订单列表
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <!-- <script>
                     $('.sidebar-nav-link').click(function () {

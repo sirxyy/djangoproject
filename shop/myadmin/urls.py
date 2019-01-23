@@ -31,4 +31,10 @@ urlpatterns = [
     url(r'^editgoods/$', goods_views.editgoods, name="myadmin_editgoods"),
 
     
+    # 登录
+    url(r'^login/$', index_views.myadminLogin, name="myadmin_login"),
+    # yzm
+    url(r'^verifycode/$', index_views.verifycode, name="myadmin_yzm"),
+    # 退出登录
+    url(r'^outlogin/$', index_views.logout, name="myadmin_out"),
 ]

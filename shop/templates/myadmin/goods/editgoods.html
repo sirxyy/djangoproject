@@ -20,7 +20,7 @@
                             <div class="am-u-sm-9">
                                 <select name="cateid" data-am-selected="{btnSize: 'sm'}" style="display: none;">
                                    {% for i in types %}
-                                    <option value="{{ i.id }}" {% if i.upid == 0 %} disabled {% endif %}>{{i.newname}}{{ i.name }}</option>
+                                    <option value="{{ i.id }}" {% if i.upid == 0 %} disabled {% endif %}  >{{i.newname}}{{ i.name }}</option>
                                    {% endfor %}
                                 </select>
                             </div>
