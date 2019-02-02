@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import user_views, index_views, cate_views, goods_views
+from .views import user_views, index_views, cate_views, goods_views, order_views
 
 # https://github.com/sirxyy/djangoproject
 
@@ -37,4 +37,13 @@ urlpatterns = [
     url(r'^verifycode/$', index_views.verifycode, name="myadmin_yzm"),
     # 退出登录
     url(r'^outlogin/$', index_views.logout, name="myadmin_out"),
+
+
+
+    # 订单列表
+    url(r'^orderlist/$', order_views.orderlist, name="myadmin_orderlist"),
+    # 订单详情
+    url(r'^orderinfo/$', order_views.orderinfo, name="myadmin_orderinfo"),
+
+
 ]

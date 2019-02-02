@@ -70,6 +70,9 @@ def myhome_register(request):
                     newuser.username=userinfo['username'] 
                     newuser.phone=userinfo['phone'] 
                     newuser.password=make_password(userinfo['password'], None, 'pbkdf2_sha256')
+                    newuser.head_url = '/static/pics/1548725941.177028.jpg'
+                    newuser.sex = 1
+                    newuser.age = 0
                     newuser.save()
                     return HttpResponse('<script>alert("注册成功，请登录");location.href="'+reverse("myhome_login")+'"</script>')
                 else:

@@ -112,7 +112,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active mod-pic" id="list-p1">
-                    <a href="/static/myhome/meilanx.html">
+                    <a href="{% url 'myhome_info' %}?id={{g.id}}">
                       <img class="lazy j-modProduct" src="{{g.g_url}}" width="220" height="220">
                     </a>
                   </div>

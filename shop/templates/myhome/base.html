@@ -53,10 +53,10 @@
                       <a href="{% url 'myhome_out' %}" class="layout-user-downmenu-link">退出登录</a>
                     </li>
                     <li class="layout-user-downmenu-item">
-                      <a href="#" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">个人中心</a>
+                      <a href="{% url 'myhome_information' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">个人中心</a>
                     </li>
                     <li class="layout-user-downmenu-item">
-                      <a href="#" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
+                      <a href="{% url 'myhome_order' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
                     </li>
                     {% else %}
                     <li class="layout-user-downmenu-item">
@@ -75,15 +75,34 @@
                 </div>
             </li>
             <li class="layout-header-service-item layout-header-service-cart" id="layoutHeaderCart">
-                <a class="layout-header-service-link" href="#" data-mtype="wmz_public_yt_cart">
+                <a class="layout-header-service-link" href="{% url 'myhome_carpage' %}" data-mtype="wmz_public_yt_cart">
                     <i class="glyphicon glyphicon-shopping-cart"></i>
                     <span class="layout-header-service-cart-num">0</span>
                 </a>
             </li>
           </ul>
+          
+
+
+
+
+
+    <!--      <script type="text/javascript">
+            var login = $('#gogogo').attr('info');
+            // 判断有没有登录
+            if (!login) {
+              alert("您没有登录,请先登录!!!");
+              location.href = "{% url 'myhome_login' %}";
+            }
+            var s = $('.layout-header-service-cart-num');
+            $.get('{% url 'myhome_car' %}', {}, function (data) {
+              s.html({{ data.car.num }});
+            }, 'json');
+          </script> -->
+
           <ul class="nav navbar-nav navbar-right layout-header-nav clearfix">
             <li class="layout-header-nav-item">
-              <a href="./index.html" class="layout-header-nav-link">魅族商城</a><p class="line-top hidden-xs"></p>
+              <a href="{% url 'myhome_index' %}" class="layout-header-nav-link">魅族商城</a><p class="line-top hidden-xs"></p>
             </li>
             {%  comment  %}
             {% for cate1 in cate %}
@@ -109,79 +128,6 @@
          <!-- /.navbar-collapse -->
       </div>
      <!-- /.container-fluid -->
-     <!-- 鼠标经过出现内容 -->
-     <div class="layout-header-nav-child">
-       <div class="container">
-         <ul class="layout-header-nav-child-list first" >
-           <li class="layout-header-nav-child-item">
-             <a class="layout-header-nav-child-link" target="_blank" href="#">
-               <div class="layout-header-nav-child-box">
-                 <img src="/static/myhome/public/img/nav1.jpg" class="layout-header-nav-child-img" alt="PRO 7">
-               </div>
-               <p class="layout-header-nav-child-name">
-                 PRO 7
-               </p>
-               <p class="layout-header-nav-child-bottom">
-                 <span class="layout-header-nav-child-price">2880</span>起
-               </p>
-             </a>
-           </li>  
-           <li class="layout-header-nav-child-item">
-             <a class="layout-header-nav-child-link" target="_blank" href="#">
-               <div class="layout-header-nav-child-box">
-                 <img src="/static/myhome/public/img/nav2.png" class="layout-header-nav-child-img" alt="PRO 7 Plus">
-               </div>
-               <p class="layout-header-nav-child-name">
-                 PRO 7 Plus
-               </p>
-               <p class="layout-header-nav-child-bottom">
-                 <span class="layout-header-nav-child-price">3580</span>起
-               </p>
-             </a>
-           </li>
-           <li class="layout-header-nav-child-item">
-             <a class="layout-header-nav-child-link" target="_blank" href="#">
-               <div class="layout-header-nav-child-box">
-                 <img src="/static/myhome/public/img/nav3.jpg" class="layout-header-nav-child-img" alt="PRO 6 Plus">
-               </div>
-               <p class="layout-header-nav-child-name">
-                 PRO 6 Plus
-               </p>
-               <p class="layout-header-nav-child-bottom">
-                 <span class="layout-header-nav-child-price">2699</span>
-               </p>
-             </a>
-           </li>
-           <li class="layout-header-nav-child-item">
-             <a class="layout-header-nav-child-link" target="_blank" href="#">
-               <div class="layout-header-nav-child-box">
-                 <img src="/static/myhome/public/img/nav4.png" class="layout-header-nav-child-img" alt="PRO 6s">
-               </div>
-               <p class="layout-header-nav-child-name">
-                 PRO 6s
-               </p>
-               <p class="layout-header-nav-child-bottom">
-                 <span class="layout-header-nav-child-price">2299</span>
-               </p>
-             </a>
-           </li>
-           <li class="layout-header-nav-child-item">
-             <a class="layout-header-nav-child-link" target="_blank" href="#">
-               <div class="layout-header-nav-child-box">
-                 <img src="/static/myhome/public/img/nav5.jpg" class="layout-header-nav-child-img" alt="MX6">
-               </div>
-               <p class="layout-header-nav-child-name">
-                 MX6
-               </p>
-               <p class="layout-header-nav-child-bottom">
-                 <span class="layout-header-nav-child-price">1599</span>
-               </p>
-             </a>
-           </li>
-           
-         </ul>
-       </div>
-     </div>
     </nav>
   </div><!-- 导航 E--> 
 {% endblock header %}

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+  
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>购物车-我的购物车</title>
+    <meta name="description" content="购物车，我的购物车">
+    <meta name="Keywords" content="魅族手机官网商城、魅族官方在线商店、魅族在线商城、魅族官网在线商店、魅族商城、魅蓝商城">
+    <link href="/static/myhome/public/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="/static/myhome/public/img/favicon.ico" rel="icon" type="image/x-icon">
+    <!-- Bootstrap -->
+    <link href="/static/myhome/public/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/static/myhome/public/js/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/myhome/public/js/bootstrap.min.js"></script>
+    <!-- 兼任ie9以下 -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- 自定义 -->
+    <link rel="stylesheet" type="text/css" href="/static/myhome/public/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/static/myhome/public/css/app.css">
+    
+    <link rel="stylesheet" type="text/css" href="/static/myhome/public/css/cart.css">
+    <link rel="stylesheet" type="text/css" href="/static/myhome/public/css/cart-app.css">
+    
+    <script type="text/javascript" src="/static/myhome/public/js/rem.js"></script>
+    <script type="text/javascript" src="/static/myhome/public/js/topNav.js"></script>
+</head>
+  
+<body class="cart-app">
+    <!-- 导航 -->
+    <div class="layout-header" id="scroll-wrap">
+        <nav class="navbar navbar-default header hidden-xs hidden-sm">
+            <div class="container clearfix">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="layout-header-logo navbar-left">
+                        <a target="_blank" href="{% url 'myhome_index' %}" class="layout-header-logo-link" alt="魅族科技">
+                            <img src="/static/myhome/public/img/logo.png">
+                        </a>
+                    </div>
+                    <div class="navbar-left">
+                        <ol class="breadcrumb">
+                            <li class="active">购物车</li>
+                            <li>确认订单</li>
+                            <li>在线支付</li>
+                            <li>完成 </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- 导航 E-->
+
+    <!-- 主内容区域 -->
+    <div class="mainbody cart">
+        <div class="container">
+            <!-- 购物车详情头 -->
+            <table class="cart-header">
+                <tbody>
+                    <tr>
+                        <td class="cart-col-select col-md-3 col-xs-3 col-sm-3">
+                            <div class="cart-select-all JSelectAll">
+                                <input class="mz-checkbox col " type="checkbox" name="">
+                                <span class="cart-select-title">全选</span>
+                            </div>
+                        </td>
+                        <td class="cart-col-name col-md-3 hidden-xs hidden-sm">商品</td>
+                        <td class="cart-col-price col-md-2 hidden-xs hidden-sm">单价(元)</td>
+                        <td class="cart-col-number col-md-2 hidden-xs hidden-sm">数量</td>
+                        <td class="cart-col-total col-md-1 hidden-xs hidden-sm">小计(元)</td>
+                        <td class="cart-col-ctrl col-md-1 hidden-xs hidden-sm">操作</td>
+                    </tr>
+                </tbody>
+            </table><!-- 购物车详情头 E-->
+            
+            <!-- 购物清单信息列表 -->
+            <div class="cart-merchant-list">
+                <div class="cart-merchant">
+                    <table class="cart-merchant-body">
+                        <tbody>
+                            {% for cinfo in cgoods %}
+                            <tr class="cart-product" id="pro5">
+                                <!-- 图片 -->
+                                <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">  
+                                    <input class="mz-checkbox inp" type="checkbox" name="" cid="{{ cinfo.id }}">
+
+                                    <a href="{% url 'myhome_info' %}?id={{ cinfo.gid.id }}" class="cart-product-link" target="_blank">
+                                        <img src="{{ cinfo.gid.g_url }}" class="cart-product-img" alt="魅蓝 X">
+                                    </a>
+                                </td>
+                                <!-- 名字 -->
+                                <td class="cart-col-name col-md-3 col-xs-8 col-sm-8">
+                                    <a href="{% url 'myhome_info' %}?id={{ cinfo.gid.id }}" class="cart-product-link" target="_blank">
+                                      <p>{{ cinfo.gid.title }}</p>
+                                      <!-- <span class="cart-product-desc">全网通公开版 流光金 32GB</span> -->
+                                      <span class="cart-product-desc">{{ cinfo.gid.ginfo|safe }}</span>
+                                    </a>
+                                    <p class="">
+                                        <span class="cart-product-price">{{ cinfo.gid.price }}</span>
+                                    </p>
+                                    <div class="cart-col-number">
+                                        <div class="cart-product-number-adder">
+                                            <p class="cart-product-number-max show"></p>
+                                            <div class="mz-adder">
+                                                <button class="mz-adder-subtract disabled"></button>
+                                                <div class="mz-adder-num"><input class="mz-adder-input" value="{{cinfo.num}}" type="text"></div>
+                                                <button class="mz-adder-add"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- 单价 -->
+                                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
+                                    <p>
+                                        <span class="cart-product-price"><span class="price">{{cinfo.gid.price}}</span></span>
+                                    </p>
+                                </td>
+                                <!-- 数量 -->
+                                <td class="cart-col-number col-md-2 hidden-xs hidden-sm">
+                                    <div class="cart-product-number-adder">
+                                        <p class="cart-product-number-max show"></p>
+                                        <div class="mz-adder">
+                                            <button class="mz-adder-subtract"  cid="{{cinfo.id}}" ></button>
+                                            <div class="mz-adder-num"><input class="mz-adder-input val" value="{{ cinfo.num }}" type="text"></div>
+                                            <button class="mz-adder-add"  sum="{{cinfo.gid.ordernum}}" cid="{{cinfo.id}}"></button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- 小计 -->
+                                <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
+                                    <span class="cart-product-price total">{%  widthratio cinfo.num 1 cinfo.gid.price  %}</span>
+                                </td>
+                                <!-- 删除 -->
+                                <td class="cart-col-ctrl col-md-1 hidden-xs hidden-sm">
+                                    <div class="cart-product-remove" cid="{{ cinfo.id }}">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                           {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- 购物清单信息列表 E-->
+        </div>
+        <!-- 结算详情 -->
+        <div class="cart-footer" id="cartFooter">
+            <div class="container">
+               <div class="cart-footer-left col-md-6 col-xs-4 col-sm-4">
+                   <div class="cart-select-all JSelectAll" data-mdesc="全选按钮" data-mtype="store_cart_all">
+                        <!-- <input class="mz-checkbox col " type="checkbox" name=""> -->
+                        <div class="mz-checkbox"></div>
+                        <span class="cart-select-title">全选</span>
+                   </div>
+                   <!-- <span class="cart-remove-selected" id="removeSelected">删除选中的商品</span> -->
+                   <span class="cart-footer-count">
+                        共
+                        <span class="cart-footer-num" id="totalCount"></span>
+                        件商品
+                   </span>
+                </div>
+                <div class="cart-footer-right col-md-5 col-md-offset-1 col-sm-offset-2 col-xs-8 col-sm-6">
+                    <span class="cart-footer-sum">
+                        <span class="cart-footer-text">已优惠</span>
+                        <span class="cart-footer-num red" id="totalDiscount">0.00</span>
+                        <span class="cart-footer-text">元， 合计(不含运费)：</span>
+                        <span class="cart-footer-total" id="totalPrice">0</span>
+                    </span>
+                    <div class="mz-btn success" id="cartSubmit">去结算</div>
+                </div>
+            </div>
+        </div><!-- 结算详情 E-->
+    </div>
+    <script type="text/javascript">
+        // 减
+        $('.mz-adder-subtract').click(function () {
+            // 获取购物车当前商的 id
+            var cid = $(this).attr('cid'); /////////////////////
+            // 获取input的val
+            var num = Number($(this).next().find('input').val());
+            // 递减
+            num --;
+            if (num <= 1) {
+                num = 1;
+            }
+            // 写入到input
+            $(this).next().find('input').val(num);
+            // 发送请求
+            sendnum(num, cid);
+            sum($(this), num);
+
+
+        });
+
+        // 加
+        $('.mz-adder-add').click(function () {
+            // 
+            var cid = $(this).attr('cid'); /////////////////////
+            // 
+            var ordernum = $(this).attr('sum');
+            // 
+            var num = Number($(this).prev().find('input').val());
+            // 递增
+            num ++;
+            if (num > ordernum) {
+                num = ordernum;
+                alert("商品超出库存");
+            }
+            // 写入到input
+            $(this).prev().find('input').val(num);
+            sendnum(num, cid);
+            sum($(this), num);
+
+        });
+
+        // 发送请求修改商品的数量
+        function sendnum(num, cid) {
+            $.get('{% url 'myhome_caredit' %}', {'num': num, 'cid': cid}, function (data) {
+                console.log(data.msg);
+            }, 'json');
+        }
+
+        // 计算小计
+        function sum(obj, num) {
+            var price = obj.parents('tr').find('.price').text();
+            var xj = Number(price) * num;
+            obj.parents('tr').find('.total').html(xj);
+        }
+
+        // 全选
+        $('.col').click(function () {
+            var flag = $(this).prop('checked');
+            // console.log(flag);
+            // 若真都选中
+            if (flag) {
+                $('.mz-checkbox').prop('checked', true);
+            } else {
+                $('.mz-checkbox').prop('checked', false);
+            }
+
+            total()
+        });
+        
+        // 单选
+        $('.inp').change(function () {
+            total();
+            // 取消全选
+            // var count = 0;
+            // if ($(this).prop('checked')) {
+            //     count ++;
+            //     if (count == $(this).parents('tr').length) {
+            //         $('.col').prop('checked', true);
+            //     } else {
+            //         $('.col').prop('checked', false);
+            //     }
+            // } else {
+            //     count --;
+            // }
+
+
+        });
+
+        // 计算总数量和总价格
+        function total() {
+            var gnum = 0;
+            var gprice = 0;
+            var cartid = [] ///////
+
+            // 判断那些是选中的
+            $('.inp').each(function () {
+                // 判断有没有选中
+                if ($(this).prop('checked')) {
+                    // 获取数量和小计
+                    gnum += Number($(this).parents('tr').find('.val').val());
+                    gprice += Number($(this).parents('tr').find('.total').text());
+
+                    cartid.push($(this).attr('cid')) /////////
+                } else {
+                    $('.col').prop('checked', false);
+                }
+            });
+            // console.log(gnum, gprice);
+            // 写入对应的位置
+            $('#totalPrice').html(gprice);
+            $('#totalCount').html(gnum);
+
+            return cartid
+        }
+
+        $('.cart-product-remove').click(function () {
+            var otr = $(this).parents('tr');
+            console.log(otr);
+            var cid = $(this).attr('cid');
+            console.log(cid);
+            
+            $.get('{% url 'myhome_cardel' %}', {'cid': cid}, function (data) {
+                console.log(data);
+                if (data.msg == '1') {
+                    otr.remove();
+                    total();
+                }
+            }, 'json');
+        });
+
+        // 单机页面进行跳转
+        $('#cartSubmit').click(function(){
+            // 获取选中的商品
+            var cartid = total()
+            // 判断有没有选择商品
+            if(cartid.length==0){
+                alert('没有选择商品')
+            }else{
+
+                location.href='{% url 'myhome_confirm' %}?cid='+cartid
+            }
+        })
+
+
+    </script>
+
+
+
+    <!-- 主内容区域 E-->
+    
+    <!-- 底部区域 -->
+    <footer class="layout-footer  hidden-xs hidden-sm">
+        <div class="container">
+            <div class="layout-footer-top clearfix">
+                <ul class="layout-footer-services clearfix">
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-sd-video"></i>
+                        </span>
+                        <span class="layout-footer-services-text">顺丰包邮</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-flash"></i>
+                        </span>
+                        <span class="layout-footer-services-text">100+ 城市次日送达</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-repeat"></i>
+                        </span>
+                        <span class="layout-footer-services-text">7 天无理由退货</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-refresh"></i>
+                        </span>
+                        <span class="layout-footer-services-text">15 天换货保障</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-wrench"></i>
+                        </span>
+                        <span class="layout-footer-services-text">1 年免费保修</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-map-marker"></i>
+                        </span>
+                        <span class="layout-footer-services-text">2300+ 线下体验店</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-sort"></i>
+                        </span>
+                        <span class="layout-footer-services-text">远程支持服务</span></a>
+                    </li>
+                    <li class="layout-footer-services-item">
+                      <a href="#" class="layout-footer-services-link" target="_blank" data-mtype="wmz_public_foot_homerepair">
+                        <span class="layout-footer-service-wrap">
+                          <i class="glyphicon glyphicon-home"></i>
+                        </span>
+                        <span class="layout-footer-services-text">上门快修</span></a>
+                    </li>
+                </ul>
+              <div class="layout-footer-contact">
+                <p class="layout-footer-contact-desc">24小时全国服务热线</p>
+                <a href="tel:400-788-3333" class="layout-footer-contact-tel">400-788-3333</a>
+                <p>
+                    <a href="javascript:void(0);" class="layout-footer-contact-online">
+                        <i class="layout-font layout-font-talk1"></i>
+                        <span class="text">在线客服</span>
+                    </a>
+                </p>
+              </div>
+            </div>
+            <div class="layout-footer-bottom clearfix">
+            <ul class="layout-footer-interlock clearfix">
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">了解魅族</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">加入我们</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">联系我们</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">Flyme</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">魅族社区</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">天猫旗舰店</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">问题反馈</a></li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">线上销售授权名单公示</a>
+                 </li>
+            </ul>
+            <div class="layout-footer-copyright clearfix">
+                <span class="layout-footer-copyright-left">
+                    <a class="layout-footer-copyright-link copyright-text">&copy;2017 Meizu Telecom Equipment Co., Ltd. All rights reserved.</a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="#" target="_blank">粤ICP备13003602号-2</a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="#" target="_blank">合字B2-20170010</a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="#" target="_blank">营业执照</a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="3" target="_blank">法律声明</a>
+                    <a class="layout-footer-copyright-link">粤公网安备 44049102496009 号</a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="#" rel="nofollow" target="_blank">
+                        <i class="layout-icon layout-icon-license"></i>
+                    </a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="#" rel="nofollow" target="_blank">
+                        <i class="layout-icon layout-icon-wel"></i>
+                    </a>
+                    <a class="layout-footer-copyright-link" hidefocus="true" href="#" rel="nofollow" target="_blank">
+                        <i class="layout-icon layout-icon-trust"></i>
+                    </a>
+                </span>
+                <ul class="layout-footer-media clearfix">
+                    <li class="layout-footer-media-item">
+                        <a href="http://weibo.com/meizumobile" class="layout-footer-media-link">
+                            <i class="layout-font layout-font-weibo"></i>
+                        </a>
+                    </li>
+                    <li class="layout-footer-media-item">
+                        <a href="javascript:void(0);" class="layout-footer-media-link wechat">
+                            <i class="layout-font layout-font-wechat"></i>
+                            <div class="layout-footer-media-wechat-qrcode">
+                                <img class="layout-footer-media-wechat-img" src="" alt="微信二维码">
+                            </div>
+                        </a>
+                    </li>
+                    <li class="layout-footer-media-item">
+                        <a href="#" class="layout-footer-media-link">
+                            <i class="layout-font layout-font-qzone"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <!-- 底部区域 E -->
+    <!-- 返回顶部 -->
+    <div class="layout-magnet layout-magnet-show">
+        <div class="layout-magnet-item layout-magnet-item-top">
+            <a href="javascript:void(0);" class="layout-magnet-link" data-mtype="wmz_public_cbxf_top">
+                <div class="layout-magnet-icon">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- 返回顶部 E-->
+    <script type="text/javascript">
+            //回顶部
+            backTop();
+            // //全选
+            // allSelect();
+            // //商品数量加减
+            // cartAddMin();
+    </script>
+</body>
+
+</html>

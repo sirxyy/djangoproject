@@ -1,0 +1,125 @@
+{% extends 'myadmin/index.html' %} 
+{% block cont %}
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title  am-cf">订单详情</div>
+                </div>
+                <div class="widget-body  am-fr">
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                        <div class="am-form-group">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <!-- <button type="button" class="am-btn am-btn-default am-btn-success" ><span class="am-icon-plus"></span><a href="{# {% url 'myadmin_adduser' %} #}">新增</a></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                            <!-- # phone
+                                    # name
+                                    # addinfo                        
+                                    # total
+                                    # wl
+                                    # pay -->
+                                <select disabled name="type" data-am-selected="{btnSize: 'sm'}" style="display: none;">
+                                    <option {% if request.GET.type == 'all' %}selected {% endif %} value="all">所有</option>
+                                    <option {% if request.GET.type == 'uname' %}selected {% endif %} value="uname">收货人</option>
+                                    <option {% if request.GET.type == 'uaddress' %}selected {% endif %} value="uaddress">收货地址</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="oid" value="{{ order.id }}">
+
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input disabled type="text"  value="{{request.GET.search}}" name="search" class="am-form-field ">
+                                <span class="am-input-group-btn">
+                                    <button disabled class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
+                                  </span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="am-u-sm-12">
+                        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>商品名</th>
+                                    <th>数量</th>
+                                    <th>商品价格</th>
+                                    <th>收货人</th>
+                                    <th>收货地址</th>
+                                    <th>物流</th>
+                                    <th>支付方式</th>
+                                    <th>支付状态</th>
+                                    <th>支付时间</th>
+                                    <th>下单人</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for orderinfo in orderinfos %}
+                                <tr class="gradeX">
+                                    <td>{{ orderinfo.id }}</td>
+                                    <td>{{ orderinfo.gid.title }}</td>
+                                    <td>{{ orderinfo.num }}</td>
+                                    <td>{{ orderinfo.price }}</td>
+                                    <td>{{ orderinfo.orderid.name }}</td>                                    
+                                    <td>{{ orderinfo.orderid.addinfo }}</td>
+                                    <td>{{ orderinfo.orderid.wl }}</td>
+                                    <td>{{ orderinfo.orderid.pay }}</td>
+                                    <td>
+                                        {% if orderinfo.orderid.status == 0 %}
+                                        交易失败
+                                        {% elif orderinfo.orderid.status == 1 %}
+                                        交易成功
+                                        {% endif %}
+                                    </td>                                 
+                                    <td>{{ orderinfo.orderid.createtime }}</td>
+                                    <td>{{ request.session.userinfo.vipuser }}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="{# {% url 'myadmin_edituser' %}?uid={{ i.id }} #}">
+                                                <i class="am-icon-pencil"></i> 编辑
+                                            </a>
+                                            <a href="{# {% url 'myadmin_deluser' %}?uid={{ i.id }} #}" class="tpl-table-black-operation-del">
+                                                <i class="am-icon-trash"></i> 删除
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <!-- more data -->
+                            </tbody>
+                            <script>
+                               
+                            </script>
+                        </table>
+                    </div>
+                    <div class="am-u-lg-12 am-cf">
+                        <div class="am-fr">
+                            <ul class="am-pagination tpl-pagination">
+                                <li ><a href="{% url 'myadmin_orderinfo' %}?oid={{request.GET.oid}}&p=1&type={{request.GET.type}}&search={{request.GET.search}}">首页</a></li>
+
+                                <li {% if page == 1 %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_orderinfo' %}?oid={{request.GET.oid}}&p={{page|add:-1}}&type={{request.GET.type}}&search={{request.GET.search}}">«</a></li>
+                                {% for i in prange %}
+                                <li {% if page == i %} class="am-active" {% endif %}><a href="{% url 'myadmin_orderinfo' %}?oid={{request.GET.oid}}&p={{i}}&type={{request.GET.type}}&search={{request.GET.search}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li {% if page == sumpage %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_orderinfo' %}?oid={{request.GET.oid}}&p={{page|add:1}}&type={{request.GET.type}}&search={{request.GET.search}}">»</a></li>
+
+                                <li ><a href="{% url 'myadmin_orderinfo' %}?oid={{request.GET.oid}}&p={{sumpage}}&type={{request.GET.type}}&search={{request.GET.search}}">尾页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

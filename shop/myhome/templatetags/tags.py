@@ -1,5 +1,6 @@
 from django import template
 from myadmin import models
+from django.core.urlresolvers import reverse
 register = template.Library()
 
 
@@ -13,7 +14,7 @@ def nav():
     str1 = ''
     for i in cates1:
         str1 += '''
-            <li class="layout-header-nav-item"><a href="/static/myhome/list.html" class="layout-header-nav-link">{name}</a></li>
-        '''.format(name=i.name)
+            <li class="layout-header-nav-item"><a href="{src}" class="layout-header-nav-link">{name}</a></li>
+        '''.format(name=i.name, src=reverse('myhome_list', args=(i.id, 0)))
     print(str1)
     return format_html(str1)

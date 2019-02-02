@@ -849,7 +849,7 @@ ul,li{
 	padding-top: 50px;
 }
 .home-floor .home-floor-content{
-	min-height: 772px;
+	/*min-height: 772px;*/
     	overflow: hidden;
     	position: relative;
 }

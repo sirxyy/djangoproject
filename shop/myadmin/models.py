@@ -41,3 +41,57 @@ class Goods(models.Model):
     addtime = models.DateTimeField(auto_now_add=True)
 
     cateid = models.ForeignKey(to="Cates", to_field="id")
+
+# 购物车
+class Car(models.Model):
+    gid = models.ForeignKey(to="Goods", to_field="id")
+    num = models.IntegerField()
+    uid = models.ForeignKey(to="Users", to_field="id")
+
+# 用户的收货人地址
+class Address(models.Model):
+    # id name phone sheng shi xian addinfo uid
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    sheng = models.CharField(max_length=100)
+    shi = models.CharField(max_length=100)
+    xian = models.CharField(max_length=100)
+    addinfo = models.CharField(max_length=255)
+
+    uid = models.ForeignKey(to="Users", to_field="id")
+
+    isselect = models.IntegerField(default=0)
+
+class Citys(models.Model):
+    name = models.CharField(max_length=100)
+    level = models.IntegerField()
+    upid = models.IntegerField()
+
+    class Meta():
+        db_table = 'citys'
+
+# 订单 
+class Order(models.Model):
+    # uid phone address total wl pay uid status
+    uid = models.ForeignKey(to="Users", to_field="id")
+    phone = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    addinfo = models.CharField(max_length=255)
+    total = models.IntegerField()
+    # 0 顺丰 1 申通 2圆通
+    wl = models.IntegerField()
+
+    pay = models.IntegerField()
+
+    status = models.IntegerField(default=0)
+
+    createtime = models.DateTimeField(auto_now_add=True)
+
+    paytime = models.DateTimeField(null=True)
+
+class Orderinfo(models.Model):
+    # gid  orderid num price
+    orderid =  models.ForeignKey(to="Order",to_field="id")
+    gid = models.ForeignKey(to="Goods",to_field="id")
+    num = models.IntegerField()
+    price = models.IntegerField()

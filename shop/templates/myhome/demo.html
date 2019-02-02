@@ -1,0 +1,14 @@
+ $('.cart-product-remove').click(function () {
+            var otr = $(this).parents('tr');
+            console.log(otr);
+            var cid = $(this).attr('cid');
+            console.log(cid);
+            
+            $.get('{% url 'myhome_cardel' %}', {'cid': cid}, function (data) {
+                console.log(data);
+                if (data.msg == '1') {
+                    otr.remove();
+                    total();
+                }
+            }, 'json');
+        });
