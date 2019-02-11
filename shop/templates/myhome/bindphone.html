@@ -116,22 +116,23 @@
 					<form action="{% url 'myhome_bindphone' %}" class="formphone am-form am-form-horizontal" method="POST">
 						{% csrf_token %}
 						<div class="am-form-group bind">
-							<label for="user-phone" class="am-form-label">验证手机</label>
+							<label for="user-phone" class="am-form-label">验证旧手机</label>
 							<div class="am-form-content">
-								<span id="user-phone">{{ user.phone }}</span>
+								<input id="user-phone" value="{{ user.phone }}" name="oldphone" disabled="disabled">
 							</div>
 						</div>
 						<div class="am-form-group code">
 							<label for="user-code" class="am-form-label">验证码</label>
 							<div class="am-form-content">
-								<input type="tel" id="user-code" placeholder="短信验证码">
+								<input type="tel" id="user-code"  placeholder="短信验证码">
 							</div>
 							<a class="btn" href="javascript:void(0);" id="sendMobileCode">
-								<div class="am-btn am-btn-danger">验证码</div>
+								<div class="am-btn am-btn-danger">验证码1</div>
 							</a>
 						</div>
+
 						<div class="am-form-group">
-							<label for="user-new-phone" class="am-form-label">验证手机</label>
+							<label for="user-new-phone" class="am-form-label">验证新手机</label>
 							<div class="am-form-content">
 								<input type="tel" name="newphone" id="user-new-phone" placeholder="绑定新手机号">
 							</div>
@@ -142,22 +143,22 @@
 								<input type="tel" id="user-new-code" placeholder="短信验证码">
 							</div>
 							<a class="btn" href="javascript:void(0);"  id="sendMobileCode1">
-								<div class="am-btn am-btn-danger">验证码</div>
+								<div class="am-btn am-btn-danger">验证码2</div>
 							</a>
 						</div>
 						<div class="info-btn">
-							<button type="button" class="am-btn am-btn-danger savephone">保存修改</button>
+							<button  class="am-btn am-btn-danger savephone">保存修改</button>
 						</div>
 
 					</form>
 					<script>
 						$('#sendMobileCode').click(function () {
-							var phone = $('#user-phone').text();
+							var phone = $('#user-phone').val();
 							console.log(phone);							
 			                var reg = /^1[0-9]{10}$/;
 			                if(reg.test(phone)){
 								// 发送请求
-								$.get('{% url 'myhome_sendmsg' %}',{phone:phone},function(data){
+								$.get('{# {% url 'myhome_sendmsg' %} #}',{phone:phone},function(data){
 									console.log(data);
 								},'json');                  
 			                }
@@ -166,23 +167,24 @@
 						var phone1 = '';
 						var code = '';
 						$('#sendMobileCode1').click(function () {
-							var phone1 = $('#newphone').val();
+							var phone1 = $('#user-new-phone').val();
 							console.log(phone1);
+
 							var reg = /^1[0-9]{10}$/;
 							if (reg.test(phone1)) {
 								// 发送请求
-								$.get('{% url 'myhome_sendmsg' %}', {phone: phone1}, function (data) {
-									console.log(data.code);
-									code = data.code;
+								$.get('{# {% url 'myhome_sendcode' %} #}', {phone: phone1}, function (data) {
+									console.log(data);
+									// code = data.code;
 								}, 'json');
 							}
 						});
 
-						var co = "request.session['msgcode']['code']";
-						var newcode = $('#user-new-code').val();
-						$('.savephone').click(function () {
-							$('.formphone').submit()
-						});
+						// var co = "request.session['msgcode']['code']";
+						// var newcode = $('#user-new-code').val();
+						// $('.savephone').click(function () {
+						// 	$('.formphone').submit()
+						// });
 
 					</script>
 

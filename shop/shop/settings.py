@@ -53,6 +53,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 
     'myadmin.AdminLoginMiddleware.AdminLoginMiddleware',
+    # 
+    'myhome.HomeLoginMiddleware.HomeLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'shop.urls'
