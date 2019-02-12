@@ -14,6 +14,14 @@ class Users(models.Model):
     status = models.IntegerField(default=0)
     addtime = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        permissions = (
+            ("show_users", "查看会员管理"),
+            ("insert_users", "添加会员"),
+            ("edit_users", "修改会员"),
+            ("del_users", "删除会员"),
+        )
+
 # 商品的分类
 class Cates(models.Model):
     # id  name        upid      paths
@@ -26,6 +34,14 @@ class Cates(models.Model):
     name = models.CharField(max_length=50)
     upid = models.IntegerField()
     paths = models.CharField(max_length=50)
+
+    class Meta:
+        permissions = (
+            ("show_cates", "查看商品分类管理"),
+            ("insert_cates", "添加商品分类"),
+            ("edit_cates", "修改商品分类"),
+            ("del_cates", "删除商品分类"),
+        )
 
 # 商品的管理
 class Goods(models.Model):
@@ -41,6 +57,14 @@ class Goods(models.Model):
     addtime = models.DateTimeField(auto_now_add=True)
 
     cateid = models.ForeignKey(to="Cates", to_field="id")
+
+    class Meta:
+        permissions = (
+            ("show_goods", "查看商品管理"),
+            ("insert_goods", "添加商品"),
+            ("edit_goods", "修改商品"),
+            ("del_goods", "删除商品"),
+        )
 
 # 购物车
 class Car(models.Model):
@@ -61,6 +85,14 @@ class Address(models.Model):
     uid = models.ForeignKey(to="Users", to_field="id")
 
     isselect = models.IntegerField(default=0)
+
+    class Meta:
+        permissions = (
+            ("show_address", "查看地址管理"),
+            ("insert_address", "添加地址"),
+            ("edit_address", "修改地址"),
+            ("del_address", "删除地址"),
+        )
 
 class Citys(models.Model):
     name = models.CharField(max_length=100)
@@ -88,6 +120,14 @@ class Order(models.Model):
     createtime = models.DateTimeField(auto_now_add=True)
 
     paytime = models.DateTimeField(null=True)
+
+    class Meta:
+        permissions = (
+            ("show_order", "查看订单管理"),
+            ("insert_order", "添加订单"),
+            ("edit_order", "修改订单"),
+            ("del_order", "删除订单"),
+        )
 
 class Orderinfo(models.Model):
     # gid  orderid num price

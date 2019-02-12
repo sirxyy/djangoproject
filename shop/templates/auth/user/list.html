@@ -1,0 +1,131 @@
+{% extends 'myadmin/index.html' %} 
+{% block cont %}
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title  am-cf">管理员列表</div>
+                </div>
+                <div class="widget-body  am-fr">
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                        <div class="am-form-group">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-success" ><span class="am-icon-plus"></span><a href="{% url 'auth_user_add' %}">新增</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select name="type" data-am-selected="{btnSize: 'sm'}" style="display: none;">
+                                    <option {% if request.GET.type == 'all' %}selected {% endif %} value="all">所有类别</option>
+                                    <option {% if request.GET.type == 'uid' %}selected {% endif %} value="uid">ID</option>
+                                    <option {% if request.GET.type == 'uname' %}selected {% endif %} value="uname">用户名</option>
+                                    <option {% if request.GET.type == 'uphone' %}selected {% endif %} value="uphone">手机号</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text"  value="{{request.GET.search}}" name="search" class="am-form-field ">
+                                <span class="am-input-group-btn">
+                                    <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
+                                  </span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="am-u-sm-12">
+                        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>邮箱</th>
+                                    <th>级别</th>
+                                    <th>所属组</th>
+                                    <th>注册时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in ulist %}
+                                <tr class="gradeX">
+                                    <td>{{ i.id }}</td>
+                                    <td>{{ i.username }}</td>
+                                    <td>{{ i.email }}</td>
+                                    <td>
+                                        {% if i.is_superuser == 1 %}
+                                        <span style="color: yellow;">超级管理员</span>
+                                        {% else %}
+                                        普通管理员
+                                        {% endif %}
+                                        
+                                    </td>
+                                    <td>
+                                        {{ i.groups.all|join:','|default:'未分配' }}
+                                    </td>
+                                    <td>{{ i.date_joined|date:'Y-m-d H:i:s' }}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="{% url 'myadmin_edituser' %}?uid={{ i.id }}">
+                                                <i class="am-icon-pencil"></i> 编辑
+                                            </a>
+                                            <a href="{% url 'auth_user_del' i.id %}" class="tpl-table-black-operation-del">
+                                                <i class="am-icon-trash"></i> 删除
+                                            </a>
+                                           
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <!-- more data -->
+                            </tbody>
+                            <script>
+                                // 修改状态
+                                // $('.changes').change(function(){
+                                //     // 获取用户id
+                                //     var uid = $(this).attr('uid');
+                                //     // 获取value值
+                                //     var val = $(this).val();
+                                //     // 发送ajax
+                                //     $.get('{% url 'myadmin_changes' %}',{uid:uid,status:val},function(data){
+                                //         alert(data.msg)
+                                //     },'json');
+                                // });
+
+                                // 重置密码
+                                $('.changepwd').click(function () {
+                                    // 获取用户id
+                                    var uid = $(this).attr('uid');
+                                    // 发送ajax请求,重置密码
+                                    $.get('{% url 'myadmin_respwd' %}', {uid: uid}, function (data) {
+                                        console.log(data);
+                                    }, 'json');
+                                }); 
+                            </script>
+                        </table>
+                    </div>
+                    <div class="am-u-lg-12 am-cf">
+                        <div class="am-fr">
+                            <ul class="am-pagination tpl-pagination">
+                                <li ><a href="{% url 'myadmin_vipuser' %}?p=1&type={{request.GET.type}}&search={{request.GET.search}}">首页</a></li>
+
+                                <li {% if page == 1 %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_vipuser' %}?p={{page|add:-1}}&type={{request.GET.type}}&search={{request.GET.search}}">«</a></li>
+                                {% for i in prange %}
+                                <li {% if page == i %} class="am-active" {% endif %}><a href="{% url 'myadmin_vipuser' %}?p={{i}}&type={{request.GET.type}}&search={{request.GET.search}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li {% if page == sumpage %}class="am-disabled"{% endif %}><a href="{% url 'myadmin_vipuser' %}?p={{page|add:1}}&type={{request.GET.type}}&search={{request.GET.search}}">»</a></li>
+
+                                <li ><a href="{% url 'myadmin_vipuser' %}?p={{sumpage}}&type={{request.GET.type}}&search={{request.GET.search}}">尾页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

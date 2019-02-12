@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import user_views, index_views, cate_views, goods_views, order_views
+from .views import user_views, index_views, cate_views, goods_views, order_views, authviews
 
 # https://github.com/sirxyy/djangoproject
 
@@ -32,11 +32,11 @@ urlpatterns = [
 
     
     # 登录
-    url(r'^login/$', index_views.myadminLogin, name="myadmin_login"),
+    url(r'^login/$', authviews.myadminLogin, name="myadmin_login"),
     # yzm
     url(r'^verifycode/$', index_views.verifycode, name="myadmin_yzm"),
     # 退出登录
-    url(r'^outlogin/$', index_views.logout, name="myadmin_out"),
+    url(r'^outlogin/$', authviews.myadminLogout, name="myadmin_out"),
 
 
 
@@ -44,6 +44,21 @@ urlpatterns = [
     url(r'^orderlist/$', order_views.orderlist, name="myadmin_orderlist"),
     # 订单详情
     url(r'^orderinfo/$', order_views.orderinfo, name="myadmin_orderinfo"),
+
+    # 后台权限管理
+
+    # 后台用户添加
+    url(r'^auth/user/add/$', authviews.useradd, name="auth_user_add"),
+    # 后台用户列表
+    url(r'^auth/user/list/$', authviews.userlist, name="auth_user_list"),
+    url(r'^auth/user/del/(?P<uid>[0-9]+)/$', authviews.userdel, name="auth_user_del"),
+
+
+    # 后台组添加
+    url(r'^auth/group/add/$', authviews.groupadd, name="auth_group_add"),
+    # 后台组列表
+    url(r'^auth/group/list/$', authviews.grouplist, name="auth_group_list"),
+    url(r'^auth/group/edit/(?P<gid>[0-9]+)/$', authviews.groupedit, name="auth_group_edit"),
 
 
 ]

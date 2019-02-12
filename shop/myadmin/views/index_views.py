@@ -10,32 +10,32 @@ from shop.settings import BASE_DIR
 def index(request):
     return render(request, 'myadmin/index.html')
 
-# 登录
-def myadminLogin(request):
-    if request.method == 'GET':
-        return render(request, 'myadmin/login.html')    
-    elif request.method == "POST":
-        # 接受用户传的参数
-        user = request.POST.dict()
-        print('+++++++++++++',user)
+# # 登录
+# def myadminLogin(request):
+#     if request.method == 'GET':
+#         return render(request, 'myadmin/login.html')    
+#     elif request.method == "POST":
+#         # 接受用户传的参数
+#         user = request.POST.dict()
+#         print('+++++++++++++',user)
 
-        # 判断用户名密码
-        if user['name'] == 'admin' and user['pwd'] == '123456':   
-            if user['yzm'].upper() == request.session.get('verifycode').upper():
-                #################  用户登陆成功后 将用户信息存入session  ########################
-                request.session['adminuser'] = {'vipuser': user['name'], 'uid': 1}
-                return HttpResponse('<script>alert("登录成功");location.href="' + reverse('myadmin_index') + '";</script>')
-            else:
-                return HttpResponse('<script>alert("证码错误，重新输入");location.href="' + reverse('myadmin_login') + '";</script>')                
-        else:
-            return HttpResponse('<script>alert("账号或密码错误");location.href="' + reverse('myadmin_login') + '";</script>')
+#         # 判断用户名密码
+#         if user['name'] == 'admin' and user['pwd'] == '123456':   
+#             if user['yzm'].upper() == request.session.get('verifycode').upper():
+#                 #################  用户登陆成功后 将用户信息存入session  ########################
+#                 request.session['adminuser'] = {'vipuser': user['name'], 'uid': 1}
+#                 return HttpResponse('<script>alert("登录成功");location.href="' + reverse('myadmin_index') + '";</script>')
+#             else:
+#                 return HttpResponse('<script>alert("证码错误，重新输入");location.href="' + reverse('myadmin_login') + '";</script>')                
+#         else:
+#             return HttpResponse('<script>alert("账号或密码错误");location.href="' + reverse('myadmin_login') + '";</script>')
 
-# 退出登录
-def logout(request):
-    # 删除session中存的用户信息
-    # request.session['adminuser']={} 或者下面的
-    del request.session['adminuser']
-    return HttpResponse('<script>alert("退出成功");location.href="' + reverse('myadmin_login') + '";</script>')    
+# # 退出登录
+# def myadminLogout(request):
+#     # 删除session中存的用户信息
+#     # request.session['adminuser']={} 或者下面的
+#     del request.session['adminuser']
+#     return HttpResponse('<script>alert("退出成功");location.href="' + reverse('myadmin_login') + '";</script>')    
 
 # 验证码
 def verifycode(request):

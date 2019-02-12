@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator
 from .. import models
+from django.contrib.auth.decorators import permission_required
 
-
+# @permission_required('myadmin.show_order', raise_exception=True)
 def orderlist(request):
     orders = models.Order.objects.all()
 

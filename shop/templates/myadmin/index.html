@@ -51,7 +51,7 @@
                         <!-- 欢迎语 -->
                         <li class="am-text-sm tpl-header-navbar-welcome">
                             <!-- <a href="javascript:;">欢迎你, <span>Amaze UI</span> </a> -->
-                            <a href="javascript:;">欢迎你, <span>{{request.session.adminuser.vipuser}}</span> </a>
+                            <a href="javascript:;">欢迎你, <span>{{request.user.username}}</span> </a>
                         </li>
 
                         <!-- 新邮件 -->
@@ -194,7 +194,7 @@
                     </div>
                     <span class="user-panel-logged-in-text">
               <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
-              禁言小张
+              {{ request.user }}
           </span>
                     <a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
                 </div>
@@ -207,6 +207,28 @@
                         <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
                     </a>
                 </li>
+                {% if request.user.is_superuser %}
+                <li class="sidebar-nav-link">
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 权限管理
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <li class="sidebar-nav-link">
+                            <a href="{% url 'auth_user_list' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 管理员列表
+                            </a>
+                        </li>
+                        <li class="sidebar-nav-link">
+                            <a href="{% url 'auth_group_list' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span>组列表
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                
+                {% if request.user.is_superuser or 'myadmin.show_users' in perms %}
                 <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 用户管理
@@ -220,9 +242,12 @@
                         </li>
                     </ul>
                 </li>
+                {% endif %}
+                
+                {% if request.user.is_superuser or 'myadmin.show_cates' in perms %}
                 <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
-                        <i class="am-icon-table sidebar-nav-link-logo"></i> 商品分类
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 商品分类管理
                         <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                     </a>
                     <ul class="sidebar-nav sidebar-nav-sub">
@@ -238,6 +263,9 @@
                         </li>
                     </ul>
                 </li>
+                {% endif %}
+
+                {% if request.user.is_superuser or 'myadmin.show_goods' in perms %}
                 <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 商品管理
@@ -256,7 +284,10 @@
                         </li>
                     </ul>
                 </li>
-                 <li class="sidebar-nav-link">
+                {% endif %}
+
+                {% if request.user.is_superuser or 'myadmin.show_order' in perms %}
+                <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 订单管理
                         <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
@@ -269,6 +300,7 @@
                         </li>
                     </ul>
                 </li>
+                {% endif %}
 
 
                 <script>

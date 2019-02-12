@@ -54,7 +54,7 @@ MIDDLEWARE = [
     # 
     'myadmin.AdminLoginMiddleware.AdminLoginMiddleware',
     # 
-    'myhome.HomeLoginMiddleware.HomeLoginMiddleware',
+    # 'myhome.HomeLoginMiddleware.HomeLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'shop.urls'

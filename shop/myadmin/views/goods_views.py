@@ -5,14 +5,17 @@ from .. import models
 from .import cate_views, user_views
 from django.core.paginator import Paginator
 import time,os, os.path
+from django.contrib.auth.decorators import permission_required
 
 # 添加
+@permission_required('myadmin.insert_goods', raise_exception=True)
 def addgoods(request):
     # 查询所有的分类  进行返回
     types = cate_views.tab()
     return render(request, 'myadmin/goods/addgoods.html', {'types': types})
 
 # 添加数据
+@permission_required('myadmin.insert_goods', raise_exception=True)
 def goodsinsert(request):
     # 接受用户的信息
     ginfo = request.POST.dict()
@@ -41,6 +44,7 @@ def goodsinsert(request):
 
     return HttpResponse('<script>location.href="http://127.0.0.1:8000/myadmin/addgoods/";</script>')    
 
+@permission_required('myadmin.show_goods', raise_exception=True)
 def goodslist(request):
     goods = models.Goods.objects.all()
 
@@ -84,6 +88,8 @@ def goodslist(request):
 
     return render(request, 'myadmin/goods/goodlist.html', {'goods': page1, 'prange': prange, 'page': page, 'sumpage': sumpage})
 
+
+@permission_required('myadmin.del_goods', raise_exception=True)
 def delgoods(request):
     gid = request.GET.get('gid')
     print(gid)
@@ -96,6 +102,7 @@ def delgoods(request):
         return JsonResponse({'msg': '0'})
 
 
+@permission_required('myadmin.edit_goods', raise_exception=True)
 def editgoods(request):
     gid = request.GET.get('id')
 

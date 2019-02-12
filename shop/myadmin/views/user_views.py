@@ -6,9 +6,11 @@ from django.core.urlresolvers import reverse
 from .. import models
 from shop.settings import BASE_DIR
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import permission_required
 
 # Create your views here.
 # 用户列表
+@permission_required('myadmin.show_users', raise_exception=True)
 def vipuser(request):
     # 查询库里的所有数据
     info = models.Users.objects.all().exclude(status=3)
@@ -56,6 +58,7 @@ def vipuser(request):
     return render(request,'myadmin/table-list.html',{'info':page1,'prange':prange,'page':page,'sumpage':sumpage})
 
 
+@permission_required('myadmin.insert_users', raise_exception=True)
 def adduser(request):
     if request.method == 'GET':
         return render(request, 'myadmin/adduser.html')
@@ -80,6 +83,7 @@ def adduser(request):
         except:
             return HttpResponse("<script>alert('添加失败!!'); location.href = '';</script>")
 
+@permission_required('myadmin.del_users', raise_exception=True)
 def deluser(request):
     uid = request.GET.get('uid')
     user = models.Users.objects.get(id=uid)
@@ -87,6 +91,7 @@ def deluser(request):
     user.save()
     return redirect(reverse('myadmin_vipuser'))
 
+@permission_required('myadmin.edit_users', raise_exception=True)
 def edituser(request):
     # 接受用户的id
     uid = request.GET.get('uid')
