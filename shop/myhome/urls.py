@@ -47,8 +47,8 @@ urlpatterns = [
     url(r'^resetpwd/$', safe_views.resetpwd, name="myhome_resetpwd"),
     url(r'^verifyold/$', safe_views.verifyold, name="myhome_verifyold"),
     # 换绑手机
-    # url(r'^bindphone/$', safe_views.bindphone, name="myhome_bindphone"),
-    # url(r'^sendcode/$', safe_views.sendcode, name="myhome_sendcode"),
+    url(r'^bindphone/$', safe_views.bindphone, name="myhome_bindphone"),
+    url(r'^sendcode/$', safe_views.sendcode, name="myhome_sendcode"),
 
 
     # 设为默认地址 isselect

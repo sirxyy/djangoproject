@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import permission_required
 # @permission_required('myadmin.show_order', raise_exception=True)
 def orderlist(request):
     orders = models.Order.objects.all()
-
+ 
     types = request.GET.get('type') # name: 
     print('=====',types)
     search = request.GET.get('search')
@@ -89,3 +89,25 @@ def orderinfo(request):
     else:
         prange = p.page_range[page - 3: page + 2]
     return render(request, 'myadmin/orders/orderinfo.html', {'order': order, 'orderinfos': page1, 'prange': prange, 'page': page, 'sumpage': sumpage})
+
+# 删除订单
+def delorder(request):
+    oid = request.GET.get('oid')
+    print(oid)
+    order = models.Order.objects.get(id=oid)
+    print(order)
+    order.delete()
+    return JsonResponse({'error': '1'})
+
+# 编辑订单价格
+def editprice(request):
+    cid = int(request.GET.get('id'))
+    cname = request.GET.get('name')
+    try:
+        order = models.Order.objects.get(id=cid)
+        order.total = cname
+        order.save()
+        return JsonResponse({'msg': 1})
+
+    except:
+        return JsonResponse({'msg': 0})

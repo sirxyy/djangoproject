@@ -7,6 +7,8 @@ urlpatterns = [
     # 首页
     url(r'^$', index_views.index, name="myadmin_index"),
 
+
+
     # 用户管理
     url(r'^vipuser/$', user_views.vipuser, name="myadmin_vipuser"),
     url(r'^adduser/$', user_views.adduser, name="myadmin_adduser"),
@@ -17,11 +19,15 @@ urlpatterns = [
     # 重置密码
     url(r'^respwd/$', user_views.respwd, name="myadmin_respwd"),
 
+
+
     # 商品的分类
     url(r'^addcate/$', cate_views.addcate, name="myadmin_addcate"),
     url(r'^listcate/$', cate_views.catelist, name="myadmin_catelist"),    
     url(r'^delcate/$', cate_views.delcate, name="myadmin_delcate"),
     url(r'^editcate/$', cate_views.editcate, name="myadmin_editcate"),
+
+
 
     # 商品管理
     url(r'^addgoods/$', goods_views.addgoods, name="myadmin_addgoods"),
@@ -44,6 +50,12 @@ urlpatterns = [
     url(r'^orderlist/$', order_views.orderlist, name="myadmin_orderlist"),
     # 订单详情
     url(r'^orderinfo/$', order_views.orderinfo, name="myadmin_orderinfo"),
+    # 删除订单
+    url(r'^delorder/$', order_views.delorder, name="myadmin_delorder"),
+    # 修改订单总价格
+    url(r'^editprice/$', order_views.editprice, name="myadmin_editprice"),
+
+
 
     # 后台权限管理
 

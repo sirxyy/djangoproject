@@ -149,6 +149,7 @@ ALIPAY_URL = "https://openapi.alipaydev.com/gateway.do"
 # 回调通知地址
 # 如果只可以内网访问开发服务器
 ALIPAY_NOTIFY_URL = "http://t23523593l.iok.la/order/pay_result/" 
+# ALIPAY_NOTIFY_URL = "http://127.0.0.1:8000/order/" 
 # 支付后的跳转地址
 # ALIPAY_RETURN_URL = 'http://mv23102380.imwork.net/order/pay_success/'
 

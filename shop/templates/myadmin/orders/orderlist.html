@@ -69,9 +69,32 @@
                                     <td>{{ order.phone }}</td>
                                     <td>{{ order.name }}</td>                                    
                                     <td>{{ order.addinfo }}</td>
-                                    <td>{{ order.total }}</td>
-                                    <td>{{ order.wl }}</td>
-                                    <td>{{ order.pay }}</td>  
+                                    <td class="dbl" id="{{ order.id }}"><span>{{ order.total }}</span></td>
+                                    <td>
+                                        {% if order.wl == 0 %}
+                                        圆通
+                                        {% elif order.wl == 1 %}
+                                        申通
+                                        {% elif order.wl == 2 %}
+                                        韵达
+                                        {% elif order.wl == 3 %}
+                                        中通
+                                        {% elif order.wl == 4 %}
+                                        顺丰
+                                        {% endif %}
+                                        {# {{ order.wl }} #}
+                                        
+                                    </td>
+                                    <td>
+                                        {% if order.pay == 0 %}
+                                        银联
+                                        {% elif order.pay == 1 %}
+                                        微信
+                                        {% elif order.pay == 2 %}
+                                        支付宝
+                                        {% endif %}
+                                    {# {{ order.pay }} #}
+                                    </td>  
                                     <td>
                                         {% if order.status == 0 %}
                                         交易失败
@@ -86,7 +109,7 @@
                                             <a href="{% url 'myadmin_orderinfo' %}?oid={{ order.id }}">
                                                 <i class="am-icon-pencil"></i> 订单详情
                                             </a>
-                                            <a href="{# {% url 'myadmin_deluser' %}?uid={{ i.id }} #}" class="tpl-table-black-operation-del">
+                                            <a class="delorder" oid="{{ order.id }}" href="javascript:void(0)" class="tpl-table-black-operation-del">
                                                 <i class="am-icon-trash"></i> 删除
                                             </a>
                                         </div>
@@ -96,7 +119,78 @@
                                 <!-- more data -->
                             </tbody>
                             <script>
-                               
+                                // // 修改总价
+                                // $('.editprice').dblclick(function() {
+                                //     var oldprice = $(this).text()  
+                                //     // console.log(oldprice)  
+
+                                //     var inp = $('<input type="text" class="inp" name="pp" size="6" style="color:black;">')   
+                                //     // console.log(inp)
+                                //     inp.val(oldprice)
+
+                                //     $(this).html(inp)
+
+                                //     $('.editprice').blur(function() {
+                                //         var newprice = $(this).find('.inp').val();
+                                //         var oid = $(this).attr('oid')
+
+                                //         console.log(newprice, oid)
+                                //     });
+                                // });
+                                // 修改,双击tr 时,编辑分类名字,
+                                $('.dbl').dblclick(function () {
+                                    // 获取当前单机的标签
+                                    var sp = $(this).find('span');
+                                    // 获取id
+                                    var id = $(this).attr('id');
+                                    // 获取到原值
+                                    var val = $(this).find('span').text();
+                                    // 创建一个input框框
+                                    var inp = $('<input type="text" class="inp" value=' + val + '>');
+                                    // 
+                                    inp.css('color', '#000');
+                                    // 将创建好的input写入到页面
+                                    $(this).find('span').html(inp);
+                                    
+                                    // 失去焦点 
+                                    inp.blur(function () {
+                                        var newval = $(this).val();
+                                        // 判断有没有修改
+                                        if (newval == val) {
+                                            // 不更改,将原来的值写入span
+                                            $(this).parent().html(val);
+                                        } else {
+                                            // 发送ajax请求
+                                            $.get('{% url 'myadmin_editprice' %}', {id: id, name: newval}, function (data) {
+                                                // 判断有没有添加成功
+                                                if (data['msg'] == 1) {
+                                                    console.log('ok');
+                                                    sp.html(newval);
+                                                } else {
+                                                    sp.html(val);
+                                                    alert('修改失败');
+                                                }
+                                            }, 'json');
+                                        }
+                                    });
+                                    
+                                });
+
+
+
+                               // 删除订单
+                               $('.delorder').click(function() {
+                                    var othis = $(this)
+                                    alert('jfdiojf')
+                                    var oid = $(this).attr('oid');
+                                    console.log(oid)
+                                    $.get('{% url 'myadmin_delorder' %}', {oid: oid}, function(data) {
+                                        console.log(data);
+                                        othis.parents('.gradeX').remove();
+
+                                    }, 'json');
+                               });
+
                             </script>
                         </table>
                     </div>

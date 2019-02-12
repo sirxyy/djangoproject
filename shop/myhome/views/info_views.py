@@ -384,7 +384,8 @@ def myhome_pay_result(request):
         print('GET验证', status)
         print('==================结束==================')
         # 支付成功后可以跳转到 个人中心的订单页面
-        return HttpResponse('<script>alert("支付成功");支付完成</script>')
+        # return HttpResponse('<script>alert("支付成功");支付完成</script>')
+        return HttpResponse('<script>alert("支付成功");location.href="' + reverser('myhome_order') + '";</script>')
 
 
 from shop import settings

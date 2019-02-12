@@ -49,35 +49,35 @@ def verifyold(request):
     else:
         return JsonResponse({'msg': '失败', 'error': 1})
 
-# 换绑手机
-# def bindphone(request):
-#     if request.method == 'GET':
-#         user = models.Users.objects.get(id=request.session['userinfo']['uid'])
-#         return render(request, 'myhome/bindphone.html', {'user': user})
-#     elif request.method == 'POST':
-#         phoneinfo = request.POST.dict()
-#         print(phoneinfo)
+#换绑手机
+def bindphone(request):
+    if request.method == 'GET':
+        user = models.Users.objects.get(id=request.session['userinfo']['uid'])
+        return render(request, 'myhome/bindphone.html', {'user': user})
+    elif request.method == 'POST':
+        phoneinfo = request.POST.dict()
+        print(phoneinfo)
 
-#         user = models.Users.objects.get(id=request.session['userinfo']['uid'])
-#         user.phone = phoneinfo['newphone'] # 更换手机号
-#         user.save()
+        user = models.Users.objects.get(id=request.session['userinfo']['uid'])
+        user.phone = phoneinfo['newphone'] # 更换手机号
+        user.save()
 
-#         return HttpResponse('<script>alert("修改成功,请重新登录");location.href="' + reverse('myhome_login') + '";</script>')
+        return HttpResponse('<script>alert("修改成功,请重新登录");location.href="' + reverse('myhome_login') + '";</script>')
 
-# # 验证码
-# def sendcode(request):
-#     import urllib
-#     import urllib.request
-#     import json
-#     import random
-#     #用户名 查看用户名请登录用户中心->验证码、通知短信->帐户及签名设置->APIID
-#     account  = "C87000499" 
-#     #密码 查看密码请登录用户中心->验证码、通知短信->帐户及签名设置->APIKEY
-#     password = "b485a61d820183a8058bf15b717e925b"
-#     mobile = request.GET.get('phone')
-#     # 随机验证码
-#     code = str(random.randint(10000,99999))
-#     # 把验证码存入session
-#     request.session['msgcode'] = {'code':code,'phone':mobile}
-#     print(code)
-#     return JsonResponse({'code':code})
+# 验证码
+def sendcode(request):
+    import urllib
+    import urllib.request
+    import json
+    import random
+    #用户名 查看用户名请登录用户中心->验证码、通知短信->帐户及签名设置->APIID
+    account  = "C87000499" 
+    #密码 查看密码请登录用户中心->验证码、通知短信->帐户及签名设置->APIKEY
+    password = "b485a61d820183a8058bf15b717e925b"
+    mobile = request.GET.get('phone')
+    # 随机验证码
+    code = str(random.randint(10000,99999))
+    # 把验证码存入session
+    request.session['msgcode'] = {'code':code,'phone':mobile}
+    print(code)
+    return JsonResponse({'code':code})

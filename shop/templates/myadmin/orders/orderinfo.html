@@ -72,8 +72,34 @@
                                     <td>{{ orderinfo.price }}</td>
                                     <td>{{ orderinfo.orderid.name }}</td>                                    
                                     <td>{{ orderinfo.orderid.addinfo }}</td>
-                                    <td>{{ orderinfo.orderid.wl }}</td>
-                                    <td>{{ orderinfo.orderid.pay }}</td>
+                                    <td>
+                                        {% if orderinfo.orderid.wl == 0 %}
+                                        圆通
+                                        {% elif orderinfo.orderid.wl == 1 %}
+                                        申通
+                                        {% elif orderinfo.orderid.wl == 2 %}
+                                        韵达
+                                        {% elif orderinfo.orderid.wl == 3 %}
+                                        中通
+                                        {% elif orderinfo.orderid.wl == 4 %}
+                                        顺丰
+                                        {% endif %}
+                                        {# {{ order.wl }} #}
+                                        {# {{ orderinfo.orderid.wl }} #}
+                                    </td>
+                                    
+                                    
+                                    <td>
+                                        {% if orderinfo.orderid.pay == 0 %}
+                                        银联
+                                        {% elif orderinfo.orderid.pay == 1 %}
+                                        微信
+                                        {% elif orderinfo.orderid.pay == 2 %}
+                                        支付宝
+                                        {% endif %}
+                                        {# {{ order.pay }} #}
+                                        {# {{ orderinfo.orderid.pay }} #}
+                                    </td>  
                                     <td>
                                         {% if orderinfo.orderid.status == 0 %}
                                         交易失败
